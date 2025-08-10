@@ -486,8 +486,7 @@ async def stockwatch_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
                         watch_text += f"✅ 狀態：監控已設置\n\n"
                         watch_text += "💡 提示：此監控已記錄，當股票達到目標價格時會通知您"
                         
-                        await update.message.reply_text(watch_text, parse_mode='Markdown')
-                        return
+
         except:
             pass
         
