@@ -1,0 +1,12 @@
+nohup: ignoring input
+數據庫 stock_monitor.db 初始化完成
+✅ 數據庫實例創建成功
+Traceback (most recent call last):
+  File "/workspace/bot_test.py", line 697, in <module>
+    app = Application.builder().token(TOKEN).build()
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_applicationbuilder.py", line 312, in build
+    updater = Updater(bot=bot, update_queue=update_queue)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 128, in __init__
+    self.__polling_cleanup_cb: Optional[Callable[[], Coroutine[Any, Any, None]]] = None
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Updater' object has no attribute '_Updater__polling_cleanup_cb' and no __dict__ for setting new attributes
