@@ -1,19 +1,30 @@
 name: Run Telegram Bot
 on:
-  workflow_dispatch:  # 允許手動觸發
-  push:               # 每次 Push 代碼時自動重啟
+  push:
+    branches: [ "main" ]  # 只在 main 分支 push 时触发
+  workflow_dispatch:      # 允许手动运行
 
 jobs:
-  run-bot:
+  deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. 拉取代码
       - uses: actions/checkout@v4
+
+      # 2. 安装 Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.11"  # 选择你的 Python 版本
+
+      # 3. 安装依赖
       - name: Install dependencies
-        run: pip install pyTelegramBotAPI
+        run: |
+          pip install python-telegram-bot requests
+          # 如果有 requirements.txt，可以用：
+          # pip install -r requirements.txt
+
+      # 4. 运行 Bot
       - name: Run Bot
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}  # 讀取 Secrets
