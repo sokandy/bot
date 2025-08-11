@@ -4,7 +4,7 @@ import datetime
 import requests
 import json
 import os
-import telebot
+
 
 # 創建單一數據庫實例
 try:
@@ -18,7 +18,7 @@ except Exception as e:
     print(f"❌ 數據庫初始化失敗: {e}")
     monitor_db = None
 
-TOKEN = telebot.TeleBot(os.environ["BOT_TOKEN"])
+TOKEN = os.environ["BOT_TOKEN"]
 
 # 當用戶輸入 /start 時觸發
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
