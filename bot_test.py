@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import datetime
 import requests
 import json
-import OS
+import os
 import telebot
 
 # 創建單一數據庫實例
