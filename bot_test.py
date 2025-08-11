@@ -5,19 +5,19 @@ import requests
 import json
 import os
 
+TOKEN = os.environ["BOT_TOKEN"]
+
 # 創建單一數據庫實例
 try:
     from stock_monitor_db import StockMonitorDB
-    monitor_db = StockMonitorDB()
-    print("✅ 數據庫實例創建成功")
+    monitor_db = StockMonitorDB(bot_token=TOKEN)
+    print("✅ 數據庫實例創建成功，並已綁定 Bot Token")
 except ImportError:
     print("❌ 無法導入 StockMonitorDB 模塊")
     monitor_db = None
 except Exception as e:
     print(f"❌ 數據庫初始化失敗: {e}")
     monitor_db = None
-
-TOKEN = os.environ["BOT_TOKEN"]
 
 # 當用戶輸入 /start 時觸發
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -713,5 +713,12 @@ if __name__ == "__main__":
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     
+    # 啟動股票監控循環（後台執行）
+    if monitor_db is not None:
+        started, msg = monitor_db.start_monitoring()
+        print(f"股票監控狀態：{msg}")
+    else:
+        print("⚠️ 未啟用股票監控：monitor_db 不可用")
+
     print("Bot 運行中...")
     app.run_polling()  # 持續監聽新訊息
