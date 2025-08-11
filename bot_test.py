@@ -3,8 +3,6 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import datetime
 import requests
 import json
-import os
-
 
 # 創建單一數據庫實例
 try:
@@ -462,7 +460,8 @@ async def stockwatch_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
         elif symbol.isdigit() and len(symbol) <= 4:
             symbol = f"{symbol.zfill(4)}.HK"
         
-        # 獲取當前價格進行比較
+        # 嘗試獲取當前價格進行比較
+        got_current_price = False
         try:
             url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
@@ -487,16 +486,15 @@ async def stockwatch_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
                         watch_text += f"{status_emoji} 差距：${change:.2f} ({change_percent:+.2f}%)\n"
                         watch_text += f"✅ 狀態：監控已設置\n\n"
                         watch_text += "💡 提示：此監控已記錄，當股票達到目標價格時會通知您"
-                        
-                        await update.message.reply_text(watch_text, parse_mode='Markdown')
-                        return
+                        got_current_price = True
         except:
             pass
         
         # 如果無法獲取當前價格，顯示基本信息
-        watch_text = f"👀 **股票監控設置**\n\n"
-        watch_text += f"📈 股票：{symbol}\n"
-        watch_text += f"🎯 目標價格：${target_price:.2f}\n"
+        if not got_current_price:
+            watch_text = f"👀 **股票監控設置**\n\n"
+            watch_text += f"📈 股票：{symbol}\n"
+            watch_text += f"🎯 目標價格：${target_price:.2f}\n"
         
         # 嘗試保存到數據庫
         try:
