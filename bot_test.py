@@ -3,6 +3,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import datetime
 import requests
 import json
+import OS
+import telebot
 
 # 創建單一數據庫實例
 try:
@@ -16,7 +18,7 @@ except Exception as e:
     print(f"❌ 數據庫初始化失敗: {e}")
     monitor_db = None
 
-TOKEN = "7298343296:AAHYGrvh8up18Kmi6ibkl10aXbkegAJk_H8"  # 替換成 @BotFather 給你的 Token
+TOKEN = telebot.TeleBot(os.environ["BOT_TOKEN"])
 
 # 當用戶輸入 /start 時觸發
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
