@@ -3,6 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import datetime
 import requests
 import json
+import os
 
 # 創建單一數據庫實例
 try:
