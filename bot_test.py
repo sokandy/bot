@@ -715,7 +715,7 @@ if __name__ == "__main__":
     
     # 啟動股票監控循環（後台執行）
     if monitor_db is not None:
-        started, msg = monitor_db.start_monitoring()
+        started, msg = monitor_db.start_monitoring(interval_seconds=15)
         print(f"股票監控狀態：{msg}")
     else:
         print("⚠️ 未啟用股票監控：monitor_db 不可用")
